@@ -34,7 +34,8 @@ jobs:
 
       - name: Build (Static Export)
         run: npm run build
-        # next.config.ts의 output: "export" 설정으로 /out 폴더에 정적 파일 생성
+        env:
+          NEXT_PUBLIC_BASE_PATH: /my-website   # GitHub Pages 서브경로 주입
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
