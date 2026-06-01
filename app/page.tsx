@@ -5,106 +5,114 @@ import NewsCard from "./components/NewsCard";
 import Image from "next/image";
 
 export default function Home() {
-  const featured = articles.find((a) => a.featured)!;
+  const featured  = articles.find((a) => a.featured)!;
   const secondary = articles.filter((a) => !a.featured).slice(0, 2);
-  const rest = articles.filter((a) => !a.featured).slice(2);
+  const rest      = articles.filter((a) => !a.featured).slice(2);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <Header />
 
-      <main className="flex-1 max-w-7xl mx-auto w-full px-4 py-8">
+      <main style={{ flex: 1 }}>
+        <div className="container" style={{ padding: "24px 16px 48px" }}>
 
-        {/* ───── 속보 티커 ───── */}
-        <div className="flex items-center gap-3 bg-red-50 border border-red-200 rounded-lg px-4 py-2 mb-8 overflow-hidden">
-          <span className="bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded shrink-0">속보</span>
-          <p className="text-sm text-gray-700 truncate">
-            서울시, 오늘 오후 2시 긴급 기자회견 예정 — 한반도 기상 이변 대응책 발표
-          </p>
-        </div>
+          {/* ── 히어로 영역 ── */}
+          <section className="hero-grid" style={{ marginBottom: 44 }}>
 
-        {/* ───── 메인 히어로 (Featured + 2 secondary) ───── */}
-        <section className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
-          {/* 대형 피처드 카드 */}
-          <article className="lg:col-span-2 group cursor-pointer">
-            <div className="relative overflow-hidden rounded-xl aspect-video bg-gray-100">
+            {/* 메인 기사 */}
+            <article className="hero-main" style={{
+              position: "relative",
+              borderRadius: 10,
+              overflow: "hidden",
+              cursor: "pointer",
+              background: "#111",
+            }}>
               <Image
                 src={featured.image}
                 alt={featured.title}
                 fill
-                className="object-cover group-hover:scale-105 transition duration-500"
+                style={{ objectFit: "cover", opacity: 0.85 }}
                 unoptimized
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-              <div className="absolute bottom-0 left-0 p-6">
-                <span className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded mb-3 inline-block">
-                  {featured.category}
-                </span>
-                <h1 className="text-white text-2xl md:text-3xl font-black leading-tight mb-2 group-hover:text-red-300 transition">
+              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.15) 55%, transparent 100%)" }} />
+              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "20px 22px" }}>
+                <span className="badge-red">{featured.category}</span>
+                <h1 style={{ color: "#fff", fontSize: 20, fontWeight: 900, lineHeight: 1.45, margin: "8px 0 6px" }}>
                   {featured.title}
                 </h1>
-                <p className="text-gray-300 text-sm line-clamp-2 hidden md:block">{featured.summary}</p>
-                <p className="text-gray-400 text-xs mt-2">{featured.time}</p>
+                <p style={{ color: "rgba(255,255,255,0.72)", fontSize: 13, lineHeight: 1.6 }} className="hero-summary">
+                  {featured.summary}
+                </p>
+                <span style={{ color: "rgba(255,255,255,0.45)", fontSize: 12, marginTop: 6, display: "block" }}>
+                  {featured.time}
+                </span>
               </div>
-            </div>
-          </article>
+            </article>
 
-          {/* 세컨더리 카드 2개 */}
-          <div className="flex flex-col gap-6">
-            {secondary.map((article) => (
-              <article key={article.id} className="group cursor-pointer flex gap-4">
-                <div className="relative w-28 h-20 shrink-0 rounded-lg overflow-hidden bg-gray-100">
+            {/* 서브 기사 2개 */}
+            <div className="hero-sub-wrap" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {secondary.map((article) => (
+                <article key={article.id} className="hero-sub" style={{
+                  position: "relative",
+                  borderRadius: 10,
+                  overflow: "hidden",
+                  cursor: "pointer",
+                  background: "#111",
+                  flex: 1,
+                }}>
                   <Image
                     src={article.image}
                     alt={article.title}
                     fill
-                    className="object-cover group-hover:scale-105 transition duration-300"
+                    style={{ objectFit: "cover", opacity: 0.82 }}
                     unoptimized
                   />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <span className="text-xs font-bold text-red-600 uppercase">{article.category}</span>
-                  <h3 className="font-bold text-gray-900 text-sm leading-snug mt-0.5 line-clamp-3 group-hover:text-red-600 transition">
-                    {article.title}
-                  </h3>
-                  <p className="text-xs text-gray-400 mt-1">{article.time}</p>
-                </div>
-              </article>
-            ))}
-
-            {/* 광고 자리 */}
-            <div className="flex-1 bg-gray-100 rounded-xl flex items-center justify-center min-h-[80px]">
-              <p className="text-xs text-gray-400">광고</p>
+                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.84) 0%, rgba(0,0,0,0.08) 60%, transparent 100%)" }} />
+                  <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "12px 14px" }}>
+                    <span className="badge-red" style={{ fontSize: 10 }}>{article.category}</span>
+                    <h3 style={{ color: "#fff", fontSize: 14, fontWeight: 700, lineHeight: 1.45, margin: "5px 0 3px" }}>
+                      {article.title}
+                    </h3>
+                    <span style={{ color: "rgba(255,255,255,0.45)", fontSize: 11 }}>{article.time}</span>
+                  </div>
+                </article>
+              ))}
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* ───── 섹션 구분선 ───── */}
-        <div className="flex items-center gap-3 mb-6">
-          <span className="w-1 h-6 bg-red-600 rounded-full inline-block" />
-          <h2 className="text-lg font-black text-gray-900">최신 뉴스</h2>
-          <div className="flex-1 h-px bg-gray-200" />
-          <a href="#" className="text-xs text-red-600 hover:underline font-medium">전체 보기 →</a>
+          {/* ── 최신 뉴스 섹션 ── */}
+          <section>
+            <div style={{ display: "flex", alignItems: "center", marginBottom: 18, borderBottom: "2px solid #E24B4A", paddingBottom: 10 }}>
+              <h2 style={{ fontSize: 17, fontWeight: 900, color: "#1a1a1a" }}>최신 뉴스</h2>
+              <div style={{ flex: 1 }} />
+              <a href="#" style={{ fontSize: 12, color: "#E24B4A", textDecoration: "none", fontWeight: 600, padding: "4px 0 4px 12px" }}>
+                전체 보기 →
+              </a>
+            </div>
+
+            <div className="card-grid">
+              {rest.map((article) => (
+                <NewsCard key={article.id} article={article} />
+              ))}
+            </div>
+
+            <div style={{ textAlign: "center", marginTop: 32 }}>
+              <button className="more-btn">뉴스 더 보기</button>
+            </div>
+          </section>
         </div>
-
-        {/* ───── 뉴스 카드 그리드 ───── */}
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          {rest.map((article) => (
-            <NewsCard key={article.id} article={article} />
-          ))}
-        </section>
-
-        {/* ───── 더 보기 버튼 ───── */}
-        <div className="text-center mb-8">
-          <button className="border-2 border-red-600 text-red-600 font-bold px-8 py-2.5 rounded-full hover:bg-red-600 hover:text-white transition">
-            뉴스 더 보기
-          </button>
-        </div>
-
       </main>
 
       <Footer />
+
+      {/* 모바일 히어로 텍스트 조정 */}
+      <style>{`
+        @media (max-width: 768px) {
+          .hero-summary { display: none; }
+          .hero-sub-wrap { flex-direction: row !important; }
+        }
+      `}</style>
     </div>
   );
 }

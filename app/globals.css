@@ -1,12 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ════════════════════════════════
+   베이스
+════════════════════════════════ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #ffffff;
+  color: #1a1a1a;
+  font-family: 'Noto Sans KR', Arial, sans-serif;
+  line-height: 1.6;
+  font-size: 14px;
+  -webkit-text-size-adjust: 100%; /* 모바일 폰트 자동확대 방지 */
+  word-break: keep-all;           /* 한글 단어 단위 줄바꿈 */
+  overflow-x: hidden;
+}
+
+img, iframe { max-width: 100%; }
+
+/* 터치 영역 최소 44px 보장 */
+button, a { -webkit-tap-highlight-color: transparent; }
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ════════════════════════════════
+   속보 marquee
+════════════════════════════════ */
+@keyframes marquee {
+  0%   { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+.marquee {
+  animation: marquee 24s linear infinite;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+/* ════════════════════════════════
+   뱃지
+════════════════════════════════ */
+.badge-red {
+  display: inline-block;
+  background: #E24B4A;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 3px;
+  letter-spacing: 0.3px;
+}
+
+/* ════════════════════════════════
+   헤더 네비 링크
+════════════════════════════════ */
+.nav-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+  text-decoration: none;
+  padding: 8px 10px;          /* 터치 여유 확보 */
+  border-radius: 4px;
+  white-space: nowrap;
+  transition: color 0.15s, background 0.15s;
+}
+.nav-link:hover {
+  color: #E24B4A;
+  background: #fff5f5;
+}
+
+/* ════════════════════════════════
+   히어로 그리드
+════════════════════════════════ */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 14px;
+}
+.hero-main { height: 420px; }
+.hero-sub  { height: 196px; }
+
+/* ════════════════════════════════
+   뉴스 카드 그리드
+════════════════════════════════ */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.news-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+.news-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+/* ════════════════════════════════
+   더 보기 버튼
+════════════════════════════════ */
+.more-btn {
+  min-height: 48px;
+  padding: 0 40px;
+  border: 2px solid #E24B4A;
+  color: #E24B4A;
+  background: transparent;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Noto Sans KR', Arial, sans-serif;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.more-btn:hover  { background: #E24B4A; color: #fff; }
+.more-btn:active { background: #c0392b; color: #fff; }
+
+/* ════════════════════════════════
+   오시는 길 레이아웃
+════════════════════════════════ */
+.location-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ════════════════════════════════
+   푸터
+════════════════════════════════ */
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+.footer-link {
+  display: block;
+  font-size: 13px;
+  color: #999;
+  text-decoration: none;
+  padding: 5px 0;           /* 터치 영역 */
+  transition: color 0.15s;
+}
+.footer-link:hover { color: #fff; }
+
+/* ════════════════════════════════
+   데스크탑/모바일 표시 제어
+════════════════════════════════ */
+.desktop-nav     { display: flex; }
+.mobile-menu-btn { display: none; }
+.mobile-nav      { display: none; }
+
+/* ════════════════════════════════
+   반응형 — 768px 이하
+════════════════════════════════ */
+@media (max-width: 768px) {
+  /* 헤더 */
+  .desktop-nav     { display: none !important; }
+  .mobile-menu-btn { display: flex !important; }
+
+  /* 모바일 메뉴 열렸을 때 */
+  .mobile-nav { display: block !important; }
+
+  /* 히어로 */
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero-main { height: 260px; }
+  .hero-sub  { height: 180px; }
+
+  /* 히어로 서브 2개를 가로 나열 */
+  .hero-sub-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  /* 카드 그리드 */
+  .card-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  /* 카드 가로형으로 변환 */
+  .news-card {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 12px;
+    align-items: flex-start;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #eee;
+    padding: 12px;
+  }
+  .news-card .card-img {
+    width: 110px !important;
+    height: 80px !important;
+    flex-shrink: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+  }
+  .news-card .card-body {
+    flex: 1;
+    min-width: 0;
+    padding: 0 !important;
+  }
+
+  /* 오시는 길 */
+  .location-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* 푸터 */
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  /* 더보기 버튼 — 전체 너비 */
+  .more-btn {
+    width: 100%;
+    max-width: 360px;
+  }
 }
